@@ -1,0 +1,14 @@
+#Fat Jar Configuration File
+#Fri Jun 22 17:40:38 EST 2012
+onejar.license.required=true
+manifest.classpath=
+manifest.removesigners=true
+onejar.checkbox=false
+jarname=C\:\\Users\\so898\\Desktop\\OnlyLZ2.jar
+manifest.mergeall=true
+manifest.mainclass=Main.Main
+manifest.file=<createnew>
+jarname.isextern=true
+onejar.expand=
+excludes=
+includes=
