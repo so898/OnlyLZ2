@@ -20,8 +20,18 @@ public class CheckUrl {
 			return "Tieba";
 		else if (isTianya(url))
 			return "Tianya";
+		else if (isTianya_old(url))
+			return "Tianyaold";
 		else
 			return "false";
+	}
+	
+	public static String ChangeTianya(String url){
+		String newUrl = null;
+		String [] a = url.split("/");
+		String [] b = a[7].split(".");
+		newUrl = "http://tianya.cn/bbs/post-" + a[5] + "-" + b[0] + "-1.shtml";
+		return newUrl;
 	}
 	
 	private static boolean isDouban (String pInput) {
@@ -49,6 +59,16 @@ public class CheckUrl {
 			return false ;
 		}
 		String regEx =	"http://tianya\\.cn/bbs/post-.*-\\d*-\\d{1,10}\\.shtml" ;
+		Pattern p = Pattern.compile(regEx);
+		Matcher matcher = p.matcher(pInput);
+		return	matcher.matches();
+	}
+	
+	public static boolean isTianya_old (String pInput) {
+		if (pInput == null ){
+			return false ;
+		}
+		String regEx =	"http://www\\.tianya\\.cn/publicforum/content/.*/1/\\d{6}.shtml" ;
 		Pattern p = Pattern.compile(regEx);
 		Matcher matcher = p.matcher(pInput);
 		return	matcher.matches();

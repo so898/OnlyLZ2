@@ -272,6 +272,13 @@ public class CreateMissionPanel extends JDialog implements ActionListener, Event
 				webtype = 3;
 				x.setEventListener(this);
 			}
+			if (tmp.equals("Tianyaold")){
+				webpage = CheckUrl.ChangeTianya(Website.getText());
+				Status.setText("¼ì²âµ½ÌìÑÄÍøÖ·£¬ÕıÔÚ¼ì²âÍøÒ³...");
+				x = new CheckUrlAvaliable(3, webpage);
+				webtype = 3;
+				x.setEventListener(this);
+			}
 			if (CheckStart()){
 				Start.setEnabled(true);
 			}
