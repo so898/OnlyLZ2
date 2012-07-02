@@ -195,7 +195,7 @@ public class Main extends JFrame implements ActionListener, EventListener{
 	private void ShowAbout(){
 		Icon ico = new ImageIcon(getClass().getResource("/image/icon.png"));
 		JOptionPane.showMessageDialog(rootPane, 
-					"楼主跟我走2 \nBuild 120622 \n" +
+					"楼主跟我走2 \nBuild 120702 \n" +
 					"so898 荣誉出品\n" +
 					"微博: weibo.com/so898", "关于", JOptionPane.INFORMATION_MESSAGE, ico);
 	}
