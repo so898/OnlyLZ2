@@ -3,7 +3,11 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.Authenticator;
 import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
+import java.net.PasswordAuthentication;
+import java.net.Proxy;
 import java.net.URL;
 
 import EventPack.Check_End;
@@ -16,10 +20,18 @@ public class CheckUrlAvaliable extends Thread{
 	public String title, author = null;
 	private EventListener listener;
 	private BufferedReader in;
+	private static String proxyHost = Config.GetV("ProxyHost");
+	private static String proxyUser = Config.GetV("ProxyUsername");
+	private static String proxyPass = Encrypt.Decode(Config.GetV("ProxyPassword"));
+	private int proxyPort;
 	
 	public CheckUrlAvaliable(int i, String j){
 		webtype = i;
 		Website = j;
+		if (Config.GetV("ProxyProt") != "")
+			proxyPort = Integer.parseInt(Config.GetV("ProxyProt"));
+		else
+			proxyPort =0;
 		start();
 	}
 
@@ -45,7 +57,15 @@ public class CheckUrlAvaliable extends Thread{
 			HttpURLConnection httpUrl = null;
 			URL url = null;
 			url = new URL(Website);
-			httpUrl = (HttpURLConnection) url.openConnection();
+			if (Config.GetV("Proxy").equals("yes")){
+				InetSocketAddress isa = new InetSocketAddress(proxyHost, proxyPort);
+				Proxy proxy = new Proxy(Proxy.Type.HTTP, isa);
+				if (Config.GetV("Proxy_Auth").equals("yes"))
+					Authenticator.setDefault(new MyAuthenticator(proxyUser, proxyPass));
+				httpUrl = (HttpURLConnection) url.openConnection(proxy);
+			}
+			else
+				httpUrl = (HttpURLConnection) url.openConnection();
 			httpUrl.connect();
 			bis = new BufferedInputStream(httpUrl.getInputStream());
 			InputStreamReader isr=new InputStreamReader(bis,"UTF-8");
@@ -78,7 +98,15 @@ public class CheckUrlAvaliable extends Thread{
 			HttpURLConnection httpUrl = null;
 			URL url = null;
 			url = new URL(Website);
-			httpUrl = (HttpURLConnection) url.openConnection();
+			if (Config.GetV("Proxy").equals("yes")){
+				InetSocketAddress isa = new InetSocketAddress(proxyHost, proxyPort);
+				Proxy proxy = new Proxy(Proxy.Type.HTTP, isa);
+				if (Config.GetV("Proxy_Auth").equals("yes"))
+					Authenticator.setDefault(new MyAuthenticator(proxyUser, proxyPass));
+				httpUrl = (HttpURLConnection) url.openConnection(proxy);
+			}
+			else
+				httpUrl = (HttpURLConnection) url.openConnection();
 			httpUrl.connect();
 			bis = new BufferedInputStream(httpUrl.getInputStream());
 			InputStreamReader isr=new InputStreamReader(bis);
@@ -110,7 +138,15 @@ public class CheckUrlAvaliable extends Thread{
 			HttpURLConnection httpUrl = null;
 			URL url = null;
 			url = new URL(Website);
-			httpUrl = (HttpURLConnection) url.openConnection();
+			if (Config.GetV("Proxy").equals("yes")){
+				InetSocketAddress isa = new InetSocketAddress(proxyHost, proxyPort);
+				Proxy proxy = new Proxy(Proxy.Type.HTTP, isa);
+				if (Config.GetV("Proxy_Auth").equals("yes"))
+					Authenticator.setDefault(new MyAuthenticator(proxyUser, proxyPass));
+				httpUrl = (HttpURLConnection) url.openConnection(proxy);
+			}
+			else
+				httpUrl = (HttpURLConnection) url.openConnection();
 			httpUrl.connect();
 			bis = new BufferedInputStream(httpUrl.getInputStream());
 			InputStreamReader isr=new InputStreamReader(bis,"UTF-8");
@@ -155,5 +191,17 @@ public class CheckUrlAvaliable extends Thread{
 	
 	public void setEventListener(EventListener listener){  
         this.listener = listener;  
-    }  
+    }
+	
+	static class MyAuthenticator extends Authenticator {
+	    private String user = "";
+	    private String password = "";
+	    public MyAuthenticator(String user, String password) {
+	    	this.user = user;
+	    	this.password = password;
+	    }
+	    protected PasswordAuthentication getPasswordAuthentication() {
+	    	return new PasswordAuthentication(user, password.toCharArray());
+	    }
+	}
 }

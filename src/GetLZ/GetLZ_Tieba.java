@@ -8,13 +8,18 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.Authenticator;
 import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
+import java.net.PasswordAuthentication;
+import java.net.Proxy;
 import java.net.URL;
 import java.util.Vector;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
 import AssistStaff.Config;
+import AssistStaff.Encrypt;
 import AssistStaff.Mission;
 import Main.MissionPanel;
 import Main.XMLInfo;
@@ -45,12 +50,17 @@ public class GetLZ_Tieba extends GetLZ{
 	private String page = null;
 	private boolean downpdf;
 	private String tmp_path = Config.GetV("TempPath");
-	private boolean isavepage, ioverwrite, betweenline;
+	private boolean isavepage, ioverwrite, betweenline, proxy, proxy_auth;
 	private String cu_path = null;
 	private String line_mark = null;
 	private MissionPanel MP;
 	private Mission mt;
 	private String soft_name ="楼主跟我走2";
+	private FileWriter writer = null;
+	private static String proxyHost = Config.GetV("ProxyHost");
+	private static String proxyUser = Config.GetV("ProxyUsername");
+	private static String proxyPass = Encrypt.Decode(Config.GetV("ProxyPassword"));
+	private int proxyPort;
 	
 	public GetLZ_Tieba(Mission m, MissionPanel x){
 		title = m.Title;
@@ -80,6 +90,21 @@ public class GetLZ_Tieba extends GetLZ{
 		
 		for (int i =0; i<10 ; i++)
 			line_mark = line_mark + Config.GetV("LineMark");
+		
+		if (Config.GetV("ProxyProt") != "")
+			proxyPort = Integer.parseInt(Config.GetV("ProxyProt"));
+		else
+			proxyPort =0;
+		
+		if (Config.GetV("Proxy").equals("yes"))
+			proxy = true;
+		else
+			proxy = false;
+		
+		if (Config.GetV("ProxyAuth").equals("yes"))
+			proxy_auth = true;
+		else
+			proxy_auth = false;
 		
 		start();
 	}
@@ -207,7 +232,16 @@ public class GetLZ_Tieba extends GetLZ{
 		int size = 0;
 		//建立链接
 		url = new URL(destUrl);
-		httpUrl = (HttpURLConnection) url.openConnection();
+		if (proxy){
+			InetSocketAddress isa = new InetSocketAddress(proxyHost, proxyPort);
+			Proxy proxy = new Proxy(Proxy.Type.HTTP, isa);
+			if (proxy_auth)
+				Authenticator.setDefault(new MyAuthenticator(proxyUser, proxyPass));
+			httpUrl = (HttpURLConnection) url.openConnection(proxy);
+		}
+		else{
+			httpUrl = (HttpURLConnection) url.openConnection();
+		}
 		//连接指定的资源
 		httpUrl.connect();
 		//获取网络输入流
@@ -237,7 +271,16 @@ public class GetLZ_Tieba extends GetLZ{
 			URL url = null;
 			//建立链接
 			url = new URL(destUrl);
-			httpUrl = (HttpURLConnection) url.openConnection();
+			if (proxy){
+				InetSocketAddress isa = new InetSocketAddress(proxyHost, proxyPort);
+				Proxy proxy = new Proxy(Proxy.Type.HTTP, isa);
+				if (proxy_auth)
+					Authenticator.setDefault(new MyAuthenticator(proxyUser, proxyPass));
+				httpUrl = (HttpURLConnection) url.openConnection(proxy);
+			}
+			else{
+				httpUrl = (HttpURLConnection) url.openConnection();
+			}
 			//连接指定的资源
 			httpUrl.connect();
 			//获取网络输入流
@@ -491,6 +534,18 @@ public class GetLZ_Tieba extends GetLZ{
 		}
 		in.close();
 		
+	}
+	
+	static class MyAuthenticator extends Authenticator {
+	    private String user = "";
+	    private String password = "";
+	    public MyAuthenticator(String user, String password) {
+	    	this.user = user;
+	    	this.password = password;
+	    }
+	    protected PasswordAuthentication getPasswordAuthentication() {
+	    	return new PasswordAuthentication(user, password.toCharArray());
+	    }
 	}
 }
 

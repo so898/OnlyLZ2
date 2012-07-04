@@ -2,7 +2,7 @@ package Main;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -11,21 +11,22 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import AssistStaff.Config;
 
 
 public class ConfigPanel extends JDialog implements ActionListener{
-	private JButton C_Path1,C_Path2,ok,d_set;
-	private JTextField S_Path1,S_Path2;
-	private JCheckBox in_save_page,in_overwrite,sperator;
+	private JButton C_Path1,C_Path2,ok,d_set, proxy_auth;
+	private JTextField S_Path1, S_Path2;
+	private JCheckBox in_save_page,in_overwrite,sperator, proxy;
 	private JComboBox check;
 	public ConfigPanel(JFrame root){
 		super(root,true);
 		String [] jiange = {"-","*","=","#","@","~"};
 		setIconImage(Toolkit.getDefaultToolkit().createImage(getClass().getResource("/image/icon.png")));
-		setSize(400,300);
+		setSize(400,360);
 		setTitle("设置");
 		
 		setLayout(null);
@@ -34,7 +35,7 @@ public class ConfigPanel extends JDialog implements ActionListener{
 		int height=0;
 		width=Toolkit.getDefaultToolkit().getScreenSize().width;	
 		height=Toolkit.getDefaultToolkit().getScreenSize().height;	
-		setLocation((width - 400) / 2, (height - 270)	 /	 2);
+		setLocation((width - 400) / 2, (height - 360)	 /	 2);
 		JLabel one = new JLabel("默认保存位置：");
 		one.setBounds(30, 10, 200, 20);
 		add(one);
@@ -103,15 +104,32 @@ public class ConfigPanel extends JDialog implements ActionListener{
 			in_overwrite.setSelected(true);
 		}
 		
+		proxy = new JCheckBox("启用网络代理");
+		proxy.setBounds(50,230,120,30);
+		proxy.addActionListener(this);
+		add(proxy);
+		
+		proxy_auth = new JButton("代理设置");
+		proxy_auth.setBounds(220,230,120,30);
+		proxy_auth.addActionListener(this);
+		add(proxy_auth);
+		if (Config.GetV("Proxy").equals("no")){
+			proxy_auth.setEnabled(false);
+		}
+		else{
+			proxy.setSelected(true);
+		}
+		
 		ok = new JButton("确定");
-		ok.setBounds(55, 230, 120, 30);
+		ok.setBounds(55, 280, 120, 30);
 		ok.addActionListener(this);
 		add(ok);
 		d_set = new JButton("还原初始设定");
-		d_set.setBounds(215, 230, 120, 30);
+		d_set.setBounds(215, 280, 120, 30);
 		d_set.addActionListener(this);
 		add(d_set);
 		setVisible(true);
+		
 	}
 
 	public void actionPerformed(ActionEvent a) {
@@ -173,11 +191,40 @@ public class ConfigPanel extends JDialog implements ActionListener{
 			String part_line_mark = (String) check.getSelectedItem();
 			Config.SetV("LineMark",part_line_mark);
 		}
+		else if (a.getSource() == proxy){
+			if (Config.GetV("Proxy").equals("yes")){
+				proxy.setSelected(false);
+				Config.SetV("Proxy","no");
+				proxy_auth.setEnabled(false);
+			}
+			else{
+				proxy.setSelected(true);
+				Config.SetV("Proxy","yes");
+				proxy_auth.setEnabled(true);
+			}
+		}
+		else if (a.getSource() == proxy_auth){
+			new SetProxy(this);
+		}
 		else if (a.getSource() == d_set){
 			Config.CheckConfig();
 		}
 		else if (a.getSource() == ok){
-			dispose();
+			if (Config.GetV("Proxy").equals("yes") && Config.GetV("ProxyAccess").equals("no"))
+				JOptionPane.showMessageDialog(this, "您的网络代理设置错误。","代理错误",JOptionPane.ERROR_MESSAGE);
+			else
+				dispose();
+		}
+	}
+	
+	protected void processWindowEvent(WindowEvent e) {
+		if (e.getID() == WindowEvent.WINDOW_CLOSING) {
+			if (Config.GetV("Proxy").equals("yes") && Config.GetV("ProxyAccess").equals("no"))
+				JOptionPane.showMessageDialog(this, "您的网络代理设置错误。","代理错误",JOptionPane.ERROR_MESSAGE);
+			else
+				dispose();
+		} else {
+			super.processWindowEvent(e);
 		}
 	}
 }

@@ -30,6 +30,13 @@ public class Config {
 			SetV("StorePath",cu_path);
 			SetV("TempPath",tmp_path);
 			SetV("SystemTray","yes");
+			SetV("Proxy","no");
+			SetV("ProxyAccess","no");
+			SetV("ProxyHost","");
+			SetV("ProxyPort","");
+			SetV("ProxyAuth","no");
+			SetV("ProxyUsername","");
+			SetV("ProxyPassword","");
 			SetV("DownloadTemp","no");
 			SetV("RewriteTxt","yes");
 			SetV("BetweenLine","no");
@@ -54,7 +61,10 @@ public class Config {
 		catch(IOException e){
 			return "false";
 		}
-		return value;
+		if (value == null)
+			return "";
+		else
+			return value;
 	}
 	
 	public static boolean SetV(String comment, String value){
