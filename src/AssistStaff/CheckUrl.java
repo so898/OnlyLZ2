@@ -68,7 +68,7 @@ public class CheckUrl {
 		if (pInput == null ){
 			return false ;
 		}
-		String regEx =	"http://www\\.tianya\\.cn/publicforum/content/.*/1/\\d{6}.shtml" ;
+		String regEx =	"http://www\\.tianya\\.cn/publicforum/content/.*/1/\\d{1,10}.shtml" ;
 		Pattern p = Pattern.compile(regEx);
 		Matcher matcher = p.matcher(pInput);
 		return	matcher.matches();
