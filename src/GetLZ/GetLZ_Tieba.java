@@ -339,7 +339,8 @@ public class GetLZ_Tieba extends GetLZ{
 					writer.write(c_line + "×÷Õß£º" + author + c_line + c_line);
 				}
 			}
-			else if (temp.indexOf("<li class=\"l_pager\"><span class=\"tP\">") != -1 && pages ==1){
+			else if (temp.indexOf("<li class=\"l_pager pager_theme_2\"><span class=\"tP\">") != -1 && pages ==1){
+				
 				String [] a = temp.split("\"");
 				String [] b = a[a.length-2].split("=");
 				pages = Integer.parseInt(b[1]);
@@ -376,7 +377,7 @@ public class GetLZ_Tieba extends GetLZ{
 						
 					}
 					String [] a = temp.split("<cc><.*d_post_content\">");
-					String [] b = a[1].split("</p>");
+					String [] b = a[1].split("</div></cc><br/>");
 					String [] c = b[0].split("<br>");
 					for (int i = 0 ;i < c.length; i++){
 						String uncode = StringEscapeUtils.unescapeHtml4(c[i]);
