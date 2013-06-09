@@ -298,7 +298,7 @@ public class GetLZ_Tieba extends GetLZ{
 			writer = new FileWriter(myFilePath, true);
 		}
 		while(temp.indexOf("</html>") == -1){
-			if (temp.indexOf("author")	 !=	 -1 && mark == 0){
+			if (temp.indexOf("author:\"")	 !=	 -1 && mark == 0){
 				String [] a =temp.split("\"");
 				author = a[1];
 				mark = 1;

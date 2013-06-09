@@ -114,13 +114,12 @@ public class CheckUrlAvaliable extends Thread{
 			in = new BufferedReader(isr);
 			String temp = in.readLine();
 			while(temp.indexOf("</html>") == -1 ){
-				if (temp.indexOf("<h1 class=") != -1){
-					String [] a = temp.split(">");
-					String [] b = a[1].split("<");
-					title = b[0];
+				if (temp.indexOf("title:\"") != -1){
+					String [] a = temp.split("\"");
+					title = a[1];
 					break;
 				}
-				if (temp.indexOf("author")	 !=	 - 1&& author == null){
+				if (temp.indexOf("author:\"")	 !=	 - 1&& author == null){
 					String [] a =temp.split("\"");
 					author = a[1];
 				}
