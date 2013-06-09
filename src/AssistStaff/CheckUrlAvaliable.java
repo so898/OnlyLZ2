@@ -73,11 +73,12 @@ public class CheckUrlAvaliable extends Thread{
 			String temp = in.readLine();
 			while(!temp.equals("</html>")){
 				if (temp.indexOf("<h1>") != -1){
-					String [] a = temp.split("<h1>");
-					String [] b = a[1].split("</h1>");
-					title = b[0];
+                    temp = in.readLine();
+                    System.out.print(temp);
+					String [] a = temp.split("    ");
+					title = a[1];
 				}
-				else if (temp.indexOf("<span class=\"pl20\">") != -1 && author == null){
+				else if (temp.indexOf("<span class=\"from\">") != -1 && author == null){
 					String [] a = temp.split(">");
 					String [] b = a[2].split("<");
 					author = b[0];

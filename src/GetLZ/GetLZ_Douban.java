@@ -340,7 +340,7 @@ public class GetLZ_Douban extends GetLZ{
 					}
 					title_mark = 1;
 				}
-				else if (temp.indexOf("<span class=\"pl20\">") != -1 && mark != 1){
+				else if (temp.indexOf("<span class=\"from\">") != -1 && mark != 1){
 					String [] a = temp.split(">");
 					String [] ab = a[1].split("<a href=");
 					String [] b = a[2].split("<");
