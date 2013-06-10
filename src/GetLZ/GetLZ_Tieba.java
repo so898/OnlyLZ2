@@ -64,7 +64,7 @@ public class GetLZ_Tieba extends GetLZ{
 	
 	public GetLZ_Tieba(Mission m, MissionPanel x){
 		title = m.Title;
-		page = m.Url;
+		page = m.Url + "?see_lz=1";
 		cu_path = m.Path;
 		MP = x;
 		mt = m;
@@ -121,7 +121,7 @@ public class GetLZ_Tieba extends GetLZ{
 			MP.changeProcess(5);
 			for(int i=2;i<(pages)+1;i += 1)
 			{
-				addItem(page + "?pn="+String.valueOf(i),String.valueOf(i)+".html");
+				addItem(page + "&pn="+String.valueOf(i),String.valueOf(i)+".html");
 			}
 			downLoadByList();
 			long tt1=System.currentTimeMillis();
@@ -219,6 +219,7 @@ public class GetLZ_Tieba extends GetLZ{
 	}
 
 	private void addItem(String url, String filename) {
+        //System.out.println(url + "   " + filename);
 		vDownLoad.add(url);
 		vFileList.add(filename);
 	}
@@ -297,7 +298,7 @@ public class GetLZ_Tieba extends GetLZ{
 			File myFilePath = new File(filePath);
 			writer = new FileWriter(myFilePath, true);
 		}
-		while(temp.indexOf("</html>") == -1){
+		while(temp.indexOf("</body>") == -1 || temp == null){
 			if (temp.indexOf("author:\"")	 !=	 -1 && mark == 0){
 				String [] a =temp.split("\"");
 				author = a[1];
@@ -339,14 +340,14 @@ public class GetLZ_Tieba extends GetLZ{
 					writer.write(c_line + "×÷Õß£º" + author + c_line + c_line);
 				}
 			}
-			else if (temp.indexOf("<li class=\"l_pager pager_theme_2\"><span class=\"tP\">") != -1 && pages ==1){
+			else if (temp.indexOf("all_page_num:") != -1 && pages ==1){
 				
-				String [] a = temp.split("\"");
-				String [] b = a[a.length-2].split("=");
-				pages = Integer.parseInt(b[1]);
+				String [] a = temp.split("all_page_num:");
+				String [] b = a[1].split(",");
+				pages = Integer.parseInt(b[0]);
 			}
 			else if (mark != 0){
-				if (temp.indexOf(author) != -1 && temp.indexOf("<div class=\"p_post\"") != -1){
+				if (temp.indexOf("class=\"d_post_content j_d_post_content\">") != -1){
 					while (temp.indexOf("<cc>") == -1){
 						temp = in.readLine();
 						if (temp.indexOf("<legend>") != -1){
@@ -376,11 +377,17 @@ public class GetLZ_Tieba extends GetLZ{
 						}
 						
 					}
-					String [] a = temp.split("<cc><.*d_post_content\">");
+					String [] a = temp.split("j_d_post_content\">");
 					String [] b = a[1].split("</div></cc><br/>");
+                    if (b.length == 0){
+                        temp = in.readLine();
+                        continue;
+                    }
 					String [] c = b[0].split("<br>");
+                    //System.out.println(c.length);
 					for (int i = 0 ;i < c.length; i++){
 						String uncode = StringEscapeUtils.unescapeHtml4(c[i]);
+                        //System.out.println(uncode);
 						if (uncode.indexOf("<img ") != -1){
 							String [] x = uncode.split("src=\"");
 							String [] xx = x[1].split("\"");

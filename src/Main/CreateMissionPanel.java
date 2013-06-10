@@ -201,7 +201,7 @@ public class CreateMissionPanel extends JDialog implements ActionListener, Event
 			m.Title = title;
 			m.Author = author;
 			m.Path = path;
-			m.Url = webpage;;
+			m.Url = webpage;
 			if (Config.GetV("DefaultTxt").equals("yes")){
 				m.Type = "1";
 			}
@@ -257,8 +257,8 @@ public class CreateMissionPanel extends JDialog implements ActionListener, Event
 				x.setEventListener(this);
 			}
 			if (tmp.equals("Tieba")){
-				String [] tmp_page = Website.getText().split("\\?pn=\\d{1,}");
-				webpage = tmp_page[0];
+				String [] tmp_page = Website.getText().split("\\?");
+                webpage = tmp_page[0];
 				Status.setText("¼ì²âµ½°Ù¶ÈÌù°ÉÍøÖ·£¬ÕıÔÚ¼ì²âÍøÒ³...");
 				x = new CheckUrlAvaliable(2, webpage);
 				webtype = 2;
