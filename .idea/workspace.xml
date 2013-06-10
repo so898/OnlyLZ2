@@ -4,6 +4,7 @@
     <list default="true" id="7ca996eb-ec77-472d-9445-de66831342aa" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AssistStaff/CheckUrl.java" afterPath="$PROJECT_DIR$/src/AssistStaff/CheckUrl.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AssistStaff/CheckUrlAvaliable.java" afterPath="$PROJECT_DIR$/src/AssistStaff/CheckUrlAvaliable.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Main/Main.java" afterPath="$PROJECT_DIR$/src/Main/Main.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="OnlyLZ2.iws" />
@@ -90,10 +91,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Main.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Main.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Main/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="202" column="48" selection-start="6124" selection-end="6124" vertical-scroll-proportion="0.0">
+            <state line="72" column="39" selection-start="2327" selection-end="2327" vertical-scroll-proportion="0.20965058">
               <folding />
             </state>
           </provider>
@@ -117,10 +118,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CheckUrlAvaliable.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="CheckUrlAvaliable.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/AssistStaff/CheckUrlAvaliable.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="156" column="50" selection-start="4698" selection-end="4698" vertical-scroll-proportion="0.11980033">
+            <state line="156" column="50" selection-start="4698" selection-end="4698" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -168,6 +169,7 @@
         <option value="$PROJECT_DIR$/src/GetLZ/GetLZ_Tieba.java" />
         <option value="$PROJECT_DIR$/src/AssistStaff/CheckUrl.java" />
         <option value="$PROJECT_DIR$/src/AssistStaff/CheckUrlAvaliable.java" />
+        <option value="$PROJECT_DIR$/src/Main/Main.java" />
       </list>
     </option>
   </component>
@@ -503,7 +505,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1696" height="1026" extended-state="7" />
+    <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -647,13 +649,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="202" column="48" selection-start="6124" selection-end="6124" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/GetLZ/GetLZ.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="17" column="31" selection-start="472" selection-end="472" vertical-scroll-proportion="0.0">
@@ -705,7 +700,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/AssistStaff/CheckUrlAvaliable.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="156" column="50" selection-start="4698" selection-end="4698" vertical-scroll-proportion="0.11980033">
+        <state line="156" column="50" selection-start="4698" selection-end="4698" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Main/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="72" column="39" selection-start="2327" selection-end="2327" vertical-scroll-proportion="0.20965058">
           <folding />
         </state>
       </provider>
