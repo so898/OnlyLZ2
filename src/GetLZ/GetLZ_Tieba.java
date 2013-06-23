@@ -444,7 +444,29 @@ public class GetLZ_Tieba extends GetLZ{
 								writer.write(c_line);
 							}
 						}
-						else if (uncode.indexOf("<a href=") != -1){
+                        else if (uncode.indexOf(" target=\"_blank\" class=\"at\">@") != -1){
+                            String [] u = uncode.split("target=\"_blank\" class=\"at\">");
+                            String [] w = u[1].split("</a>");
+                            if (downpdf){
+                                try {
+                                    Paragraph pf = new Paragraph(w[0],fontChinese);
+                                    doc.add(pf);
+                                } catch (DocumentException e) {}
+                            }
+                            else{
+                                writer.write(w[0]);
+                            }
+                            if (downpdf){
+                                try {
+                                    Paragraph cline = new Paragraph(" ");
+                                    doc.add(cline);
+                                } catch (DocumentException e) {}
+                            }
+                            else{
+                                writer.write(c_line);
+                            }
+                        }
+                        else if (uncode.indexOf("<a href=") != -1){
 							String [] u = uncode.split("\"");
 							String [] w = uncode.split("<a href=.*</a>");
 							for (int j=0;j<w.length;j++){
